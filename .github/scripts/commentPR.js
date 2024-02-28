@@ -9,13 +9,18 @@ if(process.env.GITHUB_TOKEN){
 async function commentOnPR() {
   // Assuming you have the PR number and the repository details
   const prNumber = process.env.PR_NUMBER;
+  const pr = process.env.PR;
   const owner = process.env.REPOSITORY_OWNER;
   const repo = process.env.REPOSITORY_NAME;
 
   const comment = `Comment "PR:${prNumber}, Owner:${owner}, repo:${repo}"`;
 
-  if (!prNumber || !owner || !repo) {
-    console.error("Missing required environment variables.");
+  if (!pr) {
+    console.error("Missing PR.");
+    return;
+  }
+  if (pr && !prNumber) {
+    console.error("Missing prNumber", pr);
     return;
   }
   try{
