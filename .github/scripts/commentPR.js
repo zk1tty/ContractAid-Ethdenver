@@ -14,6 +14,11 @@ async function commentOnPR() {
 
   const comment = `Comment "PR:${prNumber}, Owner:${owner}, repo:${repo}"`;
 
+  console.log("prNumber:", prNumber);
+  if(!prNumber){
+    console.error("Missing", prNumber);
+    return;
+  }
   try{
     await octokit.issues.createComment({
         owner,
@@ -22,7 +27,7 @@ async function commentOnPR() {
         body: comment,
       });  
   }catch(err){
-    console.error(error); 
+    console.error(err); 
   }
 }
 
