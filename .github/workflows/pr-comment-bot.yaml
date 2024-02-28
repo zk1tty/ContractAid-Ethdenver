@@ -1,6 +1,8 @@
 name: PR Comment Bot
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   push:
     branches:
       - main
@@ -24,7 +26,6 @@ jobs:
     - name: Run script to post PR comment
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PR_EVENT: ${{ github.event }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         REPOSITORY_OWNER: ${{ github.repository_owner }}
         REPOSITORY_NAME: ${{ github.event.repository.name }}
