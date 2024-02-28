@@ -16,6 +16,9 @@ jobs:
       with:
         node-version: '20'  # Set this to your Node.js version
 
+        # - name: Init
+      #   run: npm init
+
     - name: Install dependencies
       run: npm install
 
@@ -26,10 +29,5 @@ jobs:
         project_id: ${{ secrets.GCP_PROJECT }}
 
     - name: Deploy to Google Cloud Functions
-      run: |
-        gcloud functions deploy WebServer-ContractAid \
-          --entry-point=helloHttp \
-          --runtime=nodejs20 \  #this to your Node.js version
-          --trigger-http \
-          --allow-unauthenticated  # Remove this flag to restrict access
+      run: gcloud functions deploy WebServer-ContractAid --entry-point=helloHttp --runtime=nodejs20 --trigger-http --allow-unauthenticated
 
