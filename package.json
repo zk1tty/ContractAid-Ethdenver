@@ -1,0 +1,45 @@
+{
+<<<<<<< HEAD
+  "name": "contractaid-ethdenver",
+  "version": "1.0.0",
+  "description": "PoC @ EthDenver repo of contractAid.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "express": "^4.18.2"
+  }
+}
+=======
+  "name": "ContractAid-Ethdenver",
+  "version": "1.0.0",
+  "description": "PoC-EthDenver repo of contractAid.io",
+  "type": "module",
+
+  "scripts": {
+    "server": "node app.js",
+    "lint": "standard"
+  },
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "@octokit/webhooks": "^13.0.2",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "octokit": "^3.1.2",
+    "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "smee-client": "^1.2.3",
+    "eslint": "^7.14.0"
+  },
+  "author": "Contractaid",
+  "license": "ISC"
+}
+
+>>>>>>> f33fda4... created package json file and empty index file in root dir
