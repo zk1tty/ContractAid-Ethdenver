@@ -8,7 +8,7 @@ if(process.env.GITHUB_TOKEN){
 
 async function commentOnPR() {
   // Assuming you have the PR number and the repository details
-  const prNumber = process.env.PR_NUMBER ? process.env.PR_NUMBER : 2;
+  const prNumber = process.env.PR_NUMBER ? process.env.PR_NUMBER : 1;
   const owner = process.env.REPOSITORY_OWNER;
   const repo = process.env.REPOSITORY_NAME;
 
@@ -24,10 +24,11 @@ async function commentOnPR() {
         repo,
         issue_number: prNumber,
         body: comment,
-      });  
+      });
   }catch(err){
     console.error(err); 
   }
+
 }
 
 commentOnPR().catch((error) => {
