@@ -14,7 +14,6 @@ async function commentOnPR() {
 
   const comment = `Comment "PR:${prNumber}, Owner:${owner}, repo:${repo}"`;
 
-  console.log("prNumber:", prNumber);
   if(!prNumber){
     console.error("Missing", prNumber);
     return;
