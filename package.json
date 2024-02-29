@@ -11,8 +11,9 @@
     "node": "20"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "dotenv": "^8.2.0"
+    "@octokit/rest": "^20.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "eslint": "^7.14.0"
