@@ -1,15 +1,22 @@
 {
-  "name": "contractaid-ethdenver",
+  "name": "ContractAid-Ethdenver",
   "version": "1.0.0",
-  "description": "PoC @ EthDenver repo of contractAid.io",
+  "description": "PoC-EthDenver repo of contractAid.io",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "deploy": "gcloud functions deploy WebServer-ContractAid --trigger-http --runtime nodejs20 --allow-unauthenticated"
   },
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": "20"
+  },
   "dependencies": {
-    "@octokit/rest": "^20.0.2",
-    "express": "^4.18.2"
-  }
+    "express": "^4.17.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.14.0"
+  },
+  "author": "Contractaid",
+  "license": "ISC"
 }
