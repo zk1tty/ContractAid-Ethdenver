@@ -118,21 +118,36 @@ a {
 }
 
 .summary-info-item {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    text-align: center; 
     width: 100%;
     border-radius: 10px;
     background-color: #272727;
 }
 
-.item-2 {
-    margin-left: 10px;
+.item-1 {
+    display: flex;
+    align-items: center;
+    justify-content: left;
 }
 
 .item-3 {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.summary-data-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: left; 
+    justify-content: center;
+}
+
+.summary-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 20px;
 }
 
 .summary-title {
