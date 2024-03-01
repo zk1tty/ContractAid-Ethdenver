@@ -7,7 +7,6 @@
 - [Setup](#setup)
 - [More Information](#more-information)
 
-  
 ## Introduction
 
 ContractAid-EthDenver is a Proof of Concept (PoC) project created for EthDenver. The repository contains the code for contractAid.io Solidity Checker, which is designed to detect missing critical operational/transactional defects in your Solidity code according to the criteria of Solidity Checklist.
@@ -37,6 +36,8 @@ ContractAid offers a quick 5-minute checker with clear and visual explanations. 
 5. Ensure your server is reachable from the internet.
 6. If you're using smee, run `smee -u <smee_url> -t http://localhost:3000/api/webhook`.
 7. Ensure your GitHub App includes at least one repository on its installations.
+
+## More Information
 
 For more information about ContractAid and EthDenver 2024, visit:
 - [EthDenver 2024 Dashboard](https://devfolio.co/ethdenver2024/dashboard)
