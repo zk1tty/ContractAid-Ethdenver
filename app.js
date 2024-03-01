@@ -14,7 +14,7 @@ const privateKeyPath = process.env.PRIVATE_KEY_PATH
 const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
-const messageForNewPRs = fs.readFileSync('./message.md', 'utf8')
+const messageForNewPRs = fs.readFileSync('./sampleReport.md', 'utf8')
 
 // Create an authenticated Octokit client authenticated as a GitHub App
 const app = new App({
@@ -36,7 +36,7 @@ const { data } = await app.octokit.request('/app')
 app.octokit.log.debug(`Authenticated as '${data.name}'`)
 
 // Subscribe to the "pull_request.opened" webhook event
-app.webhooks.on('pull_request.opened', async ({ octokit, payload }) => {
+app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
     await octokit.rest.issues.createComment({
@@ -70,7 +70,7 @@ const webhookPath = '/api/webhook'
 const localWebhookUrl = `http://localhost:${port}${webhookPath}`
 
 // See https://github.com/octokit/webhooks.js/#createnodemiddleware for all options
-const middleware = createNodeMiddleware(app.webhooks, {webhookPath })
+const middleware = createNodeMiddleware(app.webhooks, {path: webhookPath})
 
 const server = http.createServer(async(req, res) => {
   const parsedUrl = url.parse(req.url);
@@ -79,7 +79,9 @@ const server = http.createServer(async(req, res) => {
   // Check if the request URL matches the webhook path
   if (parsedUrl.pathname === webhookPath) {
     // If the request is for the webhook, use the middleware to handle it
-    middleware(req, res);
+    const response = await middleware(req, res);
+    console.log("get webhook event?:", response);
+    res.end();
   } else if(parsedUrl.pathname === '/github/callback'){
     res.writeHead(200, {'Content-Type': 'text/html'});
     console.log("queryParameters:", queryParameters);
@@ -100,7 +102,7 @@ const server = http.createServer(async(req, res) => {
   }
 });
   
-server.listen(port, async() => {
+server.listen(port, () => {
   console.log(`Server is listening for events at: ${localWebhookUrl}`)
   console.log('Press Ctrl + C to quit.')
 })
