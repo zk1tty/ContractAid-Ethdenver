@@ -108,6 +108,32 @@ a {
     margin-right: 10px; /* Adjust the spacing between the link and the paragraph as needed */
 }
 
+/* -------------- DETAILS SUMMARY ITEMS ------------------- */
+.summary-info {
+    display: flex;
+    justify-content: space-around; 
+    padding-top: 10px; 
+    padding-bottom: 10px;
+}
+
+.summary-info-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    width: 100%;
+    border-radius: 10px;
+    background-color: #272727;
+}
+
+.item-2 {
+    margin-left: 10px;
+}
+
+.item-3 {
+    margin-left: 10px;
+}
+
 /* ... other styles remain unchanged ... */
 
 /* Ensure that the body's children start after the navbar */
