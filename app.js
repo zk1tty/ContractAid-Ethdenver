@@ -39,6 +39,19 @@ app.octokit.log.debug(`Authenticated as '${data.name}'`)
 app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
+
+    const octokit = require('.')()
+    octokit.repos.getContent({
+      owner: payload.repository.owner.login,
+      repo: payload.repository.name,
+      path: 'hardhat/contracts/NFTMarketplace.sol'
+    })
+
+      .then(result => {
+        // content will be base64 encoded
+        const content = Buffer.from(result.data.content, 'base64').toString()
+        console.log(content)
+      })
     await octokit.rest.issues.createComment({
       owner: payload.repository.owner.login,
       repo: payload.repository.name,
@@ -70,9 +83,9 @@ const webhookPath = '/api/webhook'
 const localWebhookUrl = `http://localhost:${port}${webhookPath}`
 
 // See https://github.com/octokit/webhooks.js/#createnodemiddleware for all options
-const middleware = createNodeMiddleware(app.webhooks, {path: webhookPath})
+const middleware = createNodeMiddleware(app.webhooks, { path: webhookPath })
 
-const server = http.createServer(async(req, res) => {
+const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url);
   const queryParameters = parsedUrl.query;
 
@@ -82,26 +95,26 @@ const server = http.createServer(async(req, res) => {
     const response = await middleware(req, res);
     console.log("get webhook event?:", response);
     res.end();
-  } else if(parsedUrl.pathname === '/github/callback'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
+  } else if (parsedUrl.pathname === '/github/callback') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     console.log("queryParameters:", queryParameters);
-    const code = queryParameters?.code; 
+    const code = queryParameters?.code;
     res.end(`<h1>Your user code is ${queryParameters} </h1>`);
   } else {
     // Handle other paths or serve static files here
     // For example, serve a simple message for the root path
     if (parsedUrl.pathname === '/') {
-      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.writeHead(200, { 'Content-Type': 'text/html' });
       const html = fs.readFileSync('./index.html', 'utf8');
       res.end(html);
     } else {
       // If the path is not recognized, return a 404 Not Found
-      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('Not Found');
     }
   }
 });
-  
+
 server.listen(port, () => {
   console.log(`Server is listening for events at: ${localWebhookUrl}`)
   console.log('Press Ctrl + C to quit.')
