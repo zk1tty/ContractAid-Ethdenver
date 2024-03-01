@@ -104,6 +104,20 @@ const server = http.createServer(async (req, res) => {
     return; // Important to return here so the code below doesn't execute for CSS requests
   }
 
+  // serve logo on dashboard
+  if (parsedUrl.pathname === '/github/contractaidlogo.png') {
+    fs.readFile('./contractaidlogo.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
   // Server login CSS file
   if (parsedUrl.pathname === '/login.css') {
     fs.readFile('./login.css', (err, data) => {

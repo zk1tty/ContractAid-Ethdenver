@@ -1,46 +1,103 @@
-/* Global Styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f4;
+/* style.css */
+html {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
-/* Dashboard Styles */
-.dashboard {
-    background-color: #ffffff;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+body {
+    margin: 0;
+    flex-direction: column;
+    font-family: Arial, sans-serif; /* Use the font that matches the one in the image */
+    background-color: #000000; /* Adjust the color to match the image */
 }
 
-.dashboard h1 {
-    color: #0275d8; /* Bootstrap "info" color */
-    margin-bottom: 20px;
+.navbar {
+    width: 100%; /* Make navbar span the full width */
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the page */
+    z-index: 1000; /* Ensure it stays above other content */
 }
 
-.dashboard p {
-    color: #333333; /* Slightly darker than default for better contrast */
-    line-height: 1.6;
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Link Styles */
-a {
-    color: #0275d8;
+.nav-logo {
+    color: #fff;
     text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-a:hover {
-    text-decoration: underline;
+.nav-links .nav-item {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .dashboard {
-        margin: 20px;
-        padding: 15px;
-    }
+/* Add a padding-top to the main content to prevent it from hiding behind the fixed navbar */
+.main-content {
+    padding-top: 60px; /* This should be at least the height of your navbar */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center; /* Align the logo and text vertically */
+}
+
+.nav-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.nav-text {
+    padding-left: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    /* If you don't want the text to be clickable, you can remove the <a> tag and apply the styles directly to a <span> or <div> */
+}
+
+h1 {
+    color: #EDEDED;
+}
+
+h2 {
+    color: #EDEDED;
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-left: 15px;
+}
+
+.repo-details {
+    display: flex; 
+    align-items: center;
+    padding-left: 15px;
+}
+
+.repo-info {
+    background-color: #272727;
+    border-radius: 10px;
+}
+
+.view-on-github {
+    /* Style for the 'View on Github' link */
+    margin-right: 10px; /* Adjust the spacing between the link and the paragraph as needed */
+}
+
+/* ... other styles remain unchanged ... */
+
+/* Ensure that the body's children start after the navbar */
+body > * {
+    padding-top: 70px; /* Adjust this value to the height of your navbar */
 }
