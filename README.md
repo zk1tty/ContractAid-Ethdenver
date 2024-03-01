@@ -1,4 +1,4 @@
-# ContractAid-EthDenver
+# ContractAid EthDenver 2024 Project
 
 - [Introduction](#introduction)
 - [Problem Statement](#problem-statement)
