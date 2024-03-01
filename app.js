@@ -40,18 +40,24 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
 
-    const octokit = require('.')()
-    octokit.repos.getContent({
-      owner: payload.repository.owner.login,
-      repo: payload.repository.name,
-      path: 'hardhat/contracts/NFTMarketplace.sol'
-    })
+    try{
+      const owner = payload.repository.owner.login;
+      const repo = payload.repository.name;
+      console.log("owner:", owner);
+      console.log("repo:", repo);
+      app.octokit.repos.getContent({
+        owner,
+        repo,
+        path: 'hardhat/contracts/NFTMarketplace.sol'
+      }).then(result => {
+          // content will be base64 encoded
+          const content = Buffer.from(result.data.content, 'base64').toString()
+          console.log(content)
+        })      
+    }catch(err){
+      console.log(err);
+    }
 
-      .then(result => {
-        // content will be base64 encoded
-        const content = Buffer.from(result.data.content, 'base64').toString()
-        console.log(content)
-      })
     await octokit.rest.issues.createComment({
       owner: payload.repository.owner.login,
       repo: payload.repository.name,
