@@ -76,6 +76,20 @@ const server = http.createServer(async(req, res) => {
   const parsedUrl = url.parse(req.url);
   const queryParameters = parsedUrl.query;
 
+  // Serve the CSS file
+  if (parsedUrl.pathname === '/style.css') {
+    fs.readFile('./style.css', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
   // Check if the request URL matches the webhook path
   if (parsedUrl.pathname === webhookPath) {
     // If the request is for the webhook, use the middleware to handle it
@@ -84,7 +98,41 @@ const server = http.createServer(async(req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
     console.log("queryParameters:", queryParameters);
     const code = queryParameters?.code; 
-    res.end(`<h1>Your user code is ${queryParameters} </h1>`);
+    //res.end(`<h1>Your user code is ${queryParameters} </h1>`);
+
+    // Prepare dashboard HTML content
+    const dashboardHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/style.css">
+        <title>Dashboard</title>
+        <style>
+          /* Add some basic styling */
+          body { font-family: Arial, sans-serif; }
+          .dashboard { margin: 20px; }
+          .dashboard h1 { color: #333; }
+          .dashboard p { color: #666; }
+        </style>
+      </head>
+      <body>
+        <div class="dashboard">
+          <h1>Your user code is ${queryParameters}</h1>
+          <p>Welcome to your Dashboard</p>
+          <!-- Add more dashboard details here -->
+          <p>Here you can find detailed information about your interaction with our GitHub App.</p>
+          <!-- Example: Display a link or instructions -->
+          <p>Here is more info! <a href="https://example.com/documentation">documentation</a></p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(dashboardHtml);
+
   } else {
     // Handle other paths or serve static files here
     // For example, serve a simple message for the root path

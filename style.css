@@ -1,0 +1,46 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dashboard Styles */
+.dashboard {
+    background-color: #ffffff;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.dashboard h1 {
+    color: #0275d8; /* Bootstrap "info" color */
+    margin-bottom: 20px;
+}
+
+.dashboard p {
+    color: #333333; /* Slightly darker than default for better contrast */
+    line-height: 1.6;
+}
+
+/* Link Styles */
+a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard {
+        margin: 20px;
+        padding: 15px;
+    }
+}
