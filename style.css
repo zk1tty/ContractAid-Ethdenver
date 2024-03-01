@@ -86,6 +86,7 @@ h2 {
 
 p {
     margin: 10px;
+    color: #666;
 }
 
 a {
@@ -132,6 +133,18 @@ a {
 
 .item-3 {
     margin-left: 10px;
+}
+
+.summary-title {
+    color: #8F98A7;
+    margin-bottom: 5px;
+}
+
+.summary-data {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
 }
 
 /* ... other styles remain unchanged ... */
