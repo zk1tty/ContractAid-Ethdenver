@@ -70,9 +70,9 @@ const webhookPath = '/api/webhook'
 const localWebhookUrl = `http://localhost:${port}${webhookPath}`
 
 // See https://github.com/octokit/webhooks.js/#createnodemiddleware for all options
-const middleware = createNodeMiddleware(app.webhooks, {webhookPath })
+const middleware = createNodeMiddleware(app.webhooks, { webhookPath })
 
-const server = http.createServer(async(req, res) => {
+const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url);
   const queryParameters = parsedUrl.query;
 
@@ -90,65 +90,68 @@ const server = http.createServer(async(req, res) => {
     return; // Important to return here so the code below doesn't execute for CSS requests
   }
 
+  // Server login CSS file
+  if (parsedUrl.pathname === '/login.css') {
+    fs.readFile('./login.css', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // Serve Github logo
+  if (parsedUrl.pathname === '/githubicon.png') {
+    fs.readFile('./githubicon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
   // Check if the request URL matches the webhook path
   if (parsedUrl.pathname === webhookPath) {
     // If the request is for the webhook, use the middleware to handle it
     middleware(req, res);
-  } else if(parsedUrl.pathname === '/github/callback'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
+  } else if (parsedUrl.pathname === '/github/callback') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
     console.log("queryParameters:", queryParameters);
-    const code = queryParameters?.code; 
-    //res.end(`<h1>Your user code is ${queryParameters} </h1>`);
+    const code = queryParameters?.code;
 
-    // Prepare dashboard HTML content
-    const dashboardHtml = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/style.css">
-        <title>Dashboard</title>
-        <style>
-          /* Add some basic styling */
-          body { font-family: Arial, sans-serif; }
-          .dashboard { margin: 20px; }
-          .dashboard h1 { color: #333; }
-          .dashboard p { color: #666; }
-        </style>
-      </head>
-      <body>
-        <div class="dashboard">
-          <h1>Your user code is ${queryParameters}</h1>
-          <p>Welcome to your Dashboard</p>
-          <!-- Add more dashboard details here -->
-          <p>Here you can find detailed information about your interaction with our GitHub App.</p>
-          <!-- Example: Display a link or instructions -->
-          <p>Here is more info! <a href="https://example.com/documentation">documentation</a></p>
-        </div>
-      </body>
-      </html>
-    `;
+    // Read the HTML content from the file
+    const dashboardHtml = fs.readFileSync('./dashboard.html', 'utf8');
+
+    // Replace placeholders with actual content
+    const customizedHtml = dashboardHtml.replace('{{userCode}}', queryParameters);
 
     res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(dashboardHtml);
+    res.end(customizedHtml);
 
   } else {
     // Handle other paths or serve static files here
     // For example, serve a simple message for the root path
     if (parsedUrl.pathname === '/') {
-      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.writeHead(200, { 'Content-Type': 'text/html' });
       const html = fs.readFileSync('./index.html', 'utf8');
       res.end(html);
     } else {
       // If the path is not recognized, return a 404 Not Found
-      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('Not Found');
     }
   }
 });
-  
-server.listen(port, async() => {
+
+server.listen(port, async () => {
   console.log(`Server is listening for events at: ${localWebhookUrl}`)
   console.log('Press Ctrl + C to quit.')
 })

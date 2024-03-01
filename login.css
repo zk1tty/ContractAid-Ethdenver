@@ -1,0 +1,56 @@
+/* style.css */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif; /* Use the font that matches the one in the image */
+    background-color: #000000; /* Adjust the color to match the image */
+}
+
+.login-container {
+    text-align: center;
+    background-color: #24292E; /* Adjust the color to match the image */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* This adds a subtle shadow */
+    width: 300px; /* Adjust the width as necessary */
+}
+
+.github-icon {
+    margin-right: 8px; /* Space between the icon and the text */
+    vertical-align: middle; /* Align the icon vertically with the text */
+    width: 20px; /* Size of the icon */
+    height: 20px; /* Size of the icon */
+}
+
+h1 {
+    color: #EDEDED; /* Adjust the color to match the image */
+    margin-bottom: 30px; /* Adjust the space to match the image */
+}
+
+.login-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px; /* Adjust the space between buttons as necessary */
+    border: none;
+    border-radius: 5px;
+    color: #EDEDED;
+    background-color: #24292E;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.github {
+    background-color: #24292E; /* GitHub button color */
+}
+
+.github:hover {
+    background-color: #24292E; /* Darken color on hover */
+}
+
+/* Add similar styles for other buttons based on their classes */

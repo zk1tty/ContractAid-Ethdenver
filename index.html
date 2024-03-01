@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample</title>
+    <link rel="stylesheet" href="/login.css">
     <script>
         const CLIENT_ID= "Iv1.38b9cf526b867212"
         function loginGithub(){ 
@@ -12,9 +13,11 @@
 </head>
 <body>
 
-<h1>Sample Website</h1>
+<h1>Log in to ContractAid</h1>
 
-<button onclick="loginGithub()">Login Github</button>
+<button onclick="loginGithub()" class="login-btn github">
+    <img src="githubicon.png" alt="GitHub" class="github-icon"> Login with GitHub
+</button>
 
 </body>
 </html>
