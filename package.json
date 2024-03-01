@@ -25,6 +25,10 @@
     "lint": "standard"
   },
   "dependencies": {
+    "@langchain/anthropic": "^0.1.0",
+    "@langchain/community": "^0.0.34",
+    "@langchain/core": "^0.1.40",
+    "@langchain/openai": "^0.0.15",
     "@octokit/rest": "^20.0.2",
     "@octokit/webhooks": "^13.0.2",
     "dotenv": "^8.6.0",
@@ -36,6 +40,12 @@
   },
   "devDependencies": {
     "smee-client": "^1.2.3",
+    "@supabase/supabase-js": "^2.39.7",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "hardhat": "^2.20.1",
+    "langchain": "^0.1.24",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
     "eslint": "^7.14.0"
   },
   "author": "Contractaid",
