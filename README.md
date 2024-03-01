@@ -1,7 +1,13 @@
 # ContractAid-EthDenver
 
-[TOC]
+- [Introduction](#introduction)
+- [Problem Statement](#problem-statement)
+- [Solution](#solution)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [More Information](#more-information)
 
+  
 ## Introduction
 
 ContractAid-EthDenver is a Proof of Concept (PoC) project created for EthDenver. The repository contains the code for contractAid.io Solidity Checker, which is designed to detect missing critical operational/transactional defects in your Solidity code according to the criteria of Solidity Checklist.
