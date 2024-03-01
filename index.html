@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+    <script>
+        const CLIENT_ID= "Iv1.38b9cf526b867212"
+        function showMessage() {
+            alert('Hello, world');
+        }
+        function loginGithub(){ 
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=Iv1.38b9cf526b867212`;
+        }
+    </script>
+</head>
+<body>
+
+<h1>Sample</h1>
+
+<button onclick="showMessage()">Show the message</button>
+
+<button onclick="loginGithub()">Login Github</button>
+
+</body>
+</html>
