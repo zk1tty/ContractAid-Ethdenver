@@ -1,0 +1,9 @@
+{
+  "MyToken": [
+    "string memory name_",
+    "string memory symbol_"
+  ],
+  "VideoFanbaseMonetization": [
+    "address _paymentTokenAddress"
+  ]
+}
