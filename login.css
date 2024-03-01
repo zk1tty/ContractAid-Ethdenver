@@ -1,22 +1,83 @@
 /* style.css */
-body, html {
+html {
     height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-family: Arial, sans-serif; /* Use the font that matches the one in the image */
     background-color: #000000; /* Adjust the color to match the image */
 }
 
+.navbar {
+    width: 100%; /* Make navbar span the full width */
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the page */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links .nav-item {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Add a padding-top to the main content to prevent it from hiding behind the fixed navbar */
+.main-content {
+    padding-top: 60px; /* This should be at least the height of your navbar */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center; /* Align the logo and text vertically */
+}
+
+.nav-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.nav-text {
+    padding-left: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    /* If you don't want the text to be clickable, you can remove the <a> tag and apply the styles directly to a <span> or <div> */
+}
+
 .login-container {
     text-align: center;
-    background-color: #24292E; /* Adjust the color to match the image */
+    /* background-color: #24292E; /* Adjust the color to match the image */ 
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* This adds a subtle shadow */
-    width: 300px; /* Adjust the width as necessary */
+    width: 400px; /* Adjust the width as necessary */
 }
 
 .github-icon {
@@ -32,8 +93,10 @@ h1 {
 }
 
 .login-btn {
+    margin-left: auto;
+    margin-right: auto;
     display: block;
-    width: 100%;
+    width: 200px;
     padding: 10px;
     margin-bottom: 10px; /* Adjust the space between buttons as necessary */
     border: none;
@@ -53,4 +116,9 @@ h1 {
     background-color: #24292E; /* Darken color on hover */
 }
 
-/* Add similar styles for other buttons based on their classes */
+/* ... other styles remain unchanged ... */
+
+/* Ensure that the body's children start after the navbar */
+body > * {
+    padding-top: 70px; /* Adjust this value to the height of your navbar */
+}
