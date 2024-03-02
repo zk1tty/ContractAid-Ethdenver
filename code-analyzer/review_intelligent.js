@@ -26,10 +26,10 @@ const openAIKey = process.env.OPENAI_API_KEY;
 
 export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
   const loader = new DirectoryLoader(REPO_PATH, {
-    ".sol": (path) => new TextLoader(path),
+    ".rs": (path) => new TextLoader(path),
   });
   const docs = await loader.load();
-  const soliditySplitter = RecursiveCharacterTextSplitter.fromLanguage("sol", {
+  const soliditySplitter = RecursiveCharacterTextSplitter.fromLanguage("rust", {
     chunkSize: 2000,
     chunkOverlap: 200,
   });
@@ -142,5 +142,9 @@ export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
     question: question2,
   });
 
+  console.log(result2)
+
   return result2;
 };
+
+intelligentlyAnalyseReview().then(() => process.exit());
