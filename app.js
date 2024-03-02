@@ -36,34 +36,76 @@ const { data } = await app.octokit.request('/app')
 // Read more about custom logging: https://github.com/octokit/core.js#logging 
 app.octokit.log.debug(`Authenticated as '${data.name}'`)
 
+// Get InstallationID
+// app.webhooks.on('installation.created', async ({ payload }) => {
+//   console.log(`New installation: ${payload.installation.id}`);
+// });
+
+// app.webhooks.on('installation_repositories.added', async ({ payload }) => {
+//   console.log(`Installation for repositories changed: ${payload.installation.id}`);
+// });
+const { data: installations } = await app.octokit.rest.apps.listInstallations();
+const TARGET_LOGIN = "zk1tty";
+const targetInstallation = installations.find(installation => installation.account.login === TARGET_LOGIN);
+console.log("targetInstallation:", targetInstallation?.id);
+
+async function getRawSolFile(octokit, payload, path){
+  console.log("path:", path);
+  const repoRes = await octokit.rest.repos.getContent({
+    mediaType: {
+      format: "raw",
+    },
+    owner: payload.repository.owner.login,
+    repo: payload.repository.name,
+    path       
+  }) 
+  return repoRes?.data; 
+}
+
 // Subscribe to the "pull_request.opened" webhook event
 app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
 
-    // const octokit = require('.')();
-    // octokit.repos.getContent({
-    //   owner: payload.repository.owner.login,
-    //   repo: payload.repository.name,
-    //   path: 'hardhat/contracts/NFTMarketplace.sol'
-    // })
-    //   .then(result => {
-    //     // content will be base64 encoded
-    //     const content = Buffer.from(result.data.content, 'base64').toString()
-    //     console.log(content)
-    //   })
+    const tree_sha = 'heads/main';
+    const repoTree = await octokit.rest.git.getTree({
+      owner: payload.repository.owner.login,
+      repo: payload.repository.name,      
+      tree_sha,
+      recursive: '1'
+    })
+
+    const pathTree = repoTree?.data.tree 
+    const contractsPaths = pathTree.filter(leaf => {
+      return leaf.path.split(".").slice(-1)[0] === 'sol'
+        ? true
+        : false
+    })
+
+    if(!fs.existsSync("./contracts/")){
+      fs.mkdir(`./contracts`, { recursive: true }, (err) => {
+        if(err) {console.error(err)}
+      }) 
+    }
+    for (const contract of contractsPaths){
+      const rawSolFile = await getRawSolFile(octokit, payload, contract.path);
+      fs.writeFile(`./contracts/${contract.path.split('/').slice(-1)[0]}`, rawSolFile, err => {
+        if(err) {console.error(err)}
+      });
+    }
 
     console.log("Getting ready to call LLM to generate insights.......")
-
-    const result2 = await intelligentlyAnalyseReview("contracts");
-    console.log("\n=======================================");
-    console.log("\nResult from LLM:", result2);
+    const report = await intelligentlyAnalyseReview(`contracts`);
+    console.log("\nReport\n", report);
 
     await octokit.rest.issues.createComment({
       owner: payload.repository.owner.login,
       repo: payload.repository.name,
       issue_number: payload.pull_request.number,
-      body: result2 ? result2 : sampleReport,
+      body: report ? report : sampleReport,
+    })
+    fs.rm(`./contracts`, { recursive: true, force:true }, (err) => {
+      if(err) {console.error(err)}
     })
   } catch (error) {
     if (error.response) {
