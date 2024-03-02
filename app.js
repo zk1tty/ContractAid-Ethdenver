@@ -59,7 +59,7 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
 
     const pathTree = repoTree?.data.tree
     const contractsPaths = pathTree.filter(leaf => {
-      return leaf.path.split(".").slice(-1)[0] === 'sol'
+      return leaf.path.split(".").slice(-1)[0] === 'sol' || leaf.path.split(".").slice(-1)[0] === 'rs' 
         ? true
         : false
     })

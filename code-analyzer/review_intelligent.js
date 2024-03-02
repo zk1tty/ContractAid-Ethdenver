@@ -147,4 +147,4 @@ export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
   return result2;
 };
 
-intelligentlyAnalyseReview().then(() => process.exit());
+// intelligentlyAnalyseReview().then(() => process.exit());
