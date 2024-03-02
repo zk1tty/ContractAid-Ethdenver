@@ -119,6 +119,20 @@ const server = http.createServer(async (req, res) => {
     return; // Important to return here so the code below doesn't execute for CSS requests
   }
 
+  // serve speedometericon.png
+  if (parsedUrl.pathname === '/github/speedometericon.png') {
+    fs.readFile('./icons/speedometericon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
   // server linesicon logo
   if (parsedUrl.pathname === '/github/linesicon.png') {
     fs.readFile('./icons/linesicon.png', (err, data) => {
