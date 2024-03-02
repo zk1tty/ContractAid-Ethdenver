@@ -24,7 +24,7 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 // const REPO_PATH = "contracts"
 const openAIKey = process.env.OPENAI_API_KEY;
 
-async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
+export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
   const loader = new DirectoryLoader(REPO_PATH, {
     ".sol": (path) => new TextLoader(path),
   });
