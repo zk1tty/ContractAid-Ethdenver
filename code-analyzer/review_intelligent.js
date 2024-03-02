@@ -24,12 +24,20 @@ import { StringOutputParser } from "@langchain/core/output_parsers";
 // const REPO_PATH = "contracts"
 const openAIKey = process.env.OPENAI_API_KEY;
 
-export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
-  const loader = new DirectoryLoader(REPO_PATH, {
-    ".rs": (path) => new TextLoader(path),
-  });
+export async function intelligentlyAnalyseReview(REPO_PATH="contracts", lang="sol") {
+  var loader;
+  if(lang === "sol"){
+    loader = new DirectoryLoader(REPO_PATH, {
+      ".sol": (path) => new TextLoader(path),
+    });
+  } else {
+    loader = new DirectoryLoader(REPO_PATH, {
+      ".rs": (path) => new TextLoader(path),
+    });
+  }
+
   const docs = await loader.load();
-  const soliditySplitter = RecursiveCharacterTextSplitter.fromLanguage("rust", {
+  const soliditySplitter = RecursiveCharacterTextSplitter.fromLanguage(lang, {
     chunkSize: 2000,
     chunkOverlap: 200,
   });

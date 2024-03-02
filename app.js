@@ -58,7 +58,14 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
     })
 
     const pathTree = repoTree?.data.tree
+    var lang = "sol";
     const contractsPaths = pathTree.filter(leaf => {
+      lang = leaf.path.split(".").slice(-1)[0] === 'sol'
+      ? "sol"
+      : leaf.path.split(".").slice(-1)[0] === 'rs' 
+      ? "rust"
+      : undefined;
+
       return leaf.path.split(".").slice(-1)[0] === 'sol' || leaf.path.split(".").slice(-1)[0] === 'rs' 
         ? true
         : false
@@ -77,7 +84,7 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
     }
 
     console.log("Getting ready to call LLM to generate insights.......")
-    const report = await intelligentlyAnalyseReview(`contracts`);
+    const report = await intelligentlyAnalyseReview(`contracts`, lang);
     console.log("\nReport\n", report);
 
     await octokit.rest.issues.createComment({
