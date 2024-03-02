@@ -162,6 +162,22 @@ a {
     margin-top: 0;
 }
 
+/* --------------- Score Details --------------- */
+.score-details {
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+h3 {
+    color: #FFFFFF;
+    margin: 5px;
+}
+
+.score-details-data {
+    margin: 5px;
+}
+
 /* ... other styles remain unchanged ... */
 
 /* Ensure that the body's children start after the navbar */
