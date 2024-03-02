@@ -29,11 +29,7 @@ const app = new App({
 const { data } = await app.octokit.request('/app')
 // Read more about custom logging: https://github.com/octokit/core.js#logging 
 app.octokit.log.debug(`Authenticated as '${data.name}'`)
-
-const { data: installations } = await app.octokit.rest.apps.listInstallations();
-const TARGET_LOGIN = "zk1tty";
-const targetInstallation = installations.find(installation => installation.account.login === TARGET_LOGIN);
-console.log("targetInstallation:", targetInstallation?.id);
+console.log("data:",data);
 
 async function getRawSolFile(octokit, payload, path) {
   console.log("path:", path);
@@ -255,19 +251,16 @@ const server = http.createServer(async (req, res) => {
   if (parsedUrl.pathname === webhookPath) {
     console.log("got webhook");
     // If the request is for the webhook, use the middleware to handle it
-    const response = await middleware(req, res);
+    await middleware(req, res);
     res.end();
   } else if (parsedUrl.pathname === '/github/callback') {
     // res.writeHead(200, { 'Content-Type': 'text/html' });
     console.log("queryParameters:", queryParameters);
-    const code = queryParameters?.code;
     // Read the HTML content from the file
     const dashboardHtml = fs.readFileSync('./dashboard.html', 'utf8');
-
     // Replace placeholders with actual content
-    const customizedHtml = dashboardHtml.replace('{{userCode}}', queryParameters);
-
     res.writeHead(200, { 'Content-Type': 'text/html' });
+    const customizedHtml = dashboardHtml.replace('{{userCode}}', "zk1tty ").replace('{{repoName}}', "bunzz-Vesting-module");
     res.end(customizedHtml);
   } else {
     // Handle other paths or serve static files here
