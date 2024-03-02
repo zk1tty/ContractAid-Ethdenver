@@ -4,6 +4,7 @@ import http from 'http'
 import url from 'url'
 import { Octokit, App } from 'octokit'
 import { createNodeMiddleware } from '@octokit/webhooks'
+import {intelligentlyAnalyseReview} from './code-analyzer/review_intelligent.js'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -14,7 +15,7 @@ const privateKeyPath = process.env.PRIVATE_KEY_PATH
 const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
 const secret = process.env.WEBHOOK_SECRET
 const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
-const messageForNewPRs = fs.readFileSync('./sampleReport.md', 'utf8')
+const sampleReport = fs.readFileSync('./sampleReport.md', 'utf8')
 
 // Create an authenticated Octokit client authenticated as a GitHub App
 const app = new App({
@@ -40,25 +41,29 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
 
-    const octokit = require('.')();
-    octokit.repos.getContent({
-      owner: payload.repository.owner.login,
-      repo: payload.repository.name,
-      path: 'hardhat/contracts/NFTMarketplace.sol'
-    })
-      .then(result => {
-        // content will be base64 encoded
-        const content = Buffer.from(result.data.content, 'base64').toString()
-        console.log(content)
-      })
+    // const octokit = require('.')();
+    // octokit.repos.getContent({
+    //   owner: payload.repository.owner.login,
+    //   repo: payload.repository.name,
+    //   path: 'hardhat/contracts/NFTMarketplace.sol'
+    // })
+    //   .then(result => {
+    //     // content will be base64 encoded
+    //     const content = Buffer.from(result.data.content, 'base64').toString()
+    //     console.log(content)
+    //   })
 
-    const {result, result2} = await intelligentlyAnalyseReview("contracts");
+    console.log("Getting ready to call LLM to generate insights.......")
+
+    const result2 = await intelligentlyAnalyseReview("contracts");
+    console.log("\n=======================================");
+    console.log("\nResult from LLM:", result2);
 
     await octokit.rest.issues.createComment({
       owner: payload.repository.owner.login,
       repo: payload.repository.name,
       issue_number: payload.pull_request.number,
-      body: messageForNewPRs
+      body: result2 ? result2 : sampleReport,
     })
   } catch (error) {
     if (error.response) {
@@ -93,9 +98,9 @@ const server = http.createServer(async (req, res) => {
 
   // Check if the request URL matches the webhook path
   if (parsedUrl.pathname === webhookPath) {
+    console.log("got webhook");
     // If the request is for the webhook, use the middleware to handle it
     const response = await middleware(req, res);
-    console.log("get webhook event?:", response);
     res.end();
   } else if (parsedUrl.pathname === '/github/callback') {
     res.writeHead(200, { 'Content-Type': 'text/html' });
