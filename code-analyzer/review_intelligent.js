@@ -136,16 +136,11 @@ export async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
     }
   );
 
-  console.log(result);
-
   const question2 =
     "can you create a table for the above findings?";
   const result2 = await conversationalQaChain.invoke({
     question: question2,
   });
 
-  console.log(result2);
-  return (result, result2);
+  return result2;
 };
-
-intelligentlyAnalyseReview().then(() => process.exit());
