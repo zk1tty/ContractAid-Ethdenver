@@ -1,0 +1,204 @@
+/* style.css */
+html {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    flex-direction: column;
+    font-family: Arial, sans-serif; /* Use the font that matches the one in the image */
+    background-color: #000000; /* Adjust the color to match the image */
+}
+
+.navbar {
+    width: 100%; /* Make navbar span the full width */
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    position: fixed; /* Fix the navbar at the top */
+    top: 0; /* Position at the top of the page */
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links .nav-item {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+/* Add a padding-top to the main content to prevent it from hiding behind the fixed navbar */
+.main-content {
+    padding-top: 60px; /* This should be at least the height of your navbar */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center; /* Align the logo and text vertically */
+}
+
+.nav-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.nav-text {
+    padding-left: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    /* If you don't want the text to be clickable, you can remove the <a> tag and apply the styles directly to a <span> or <div> */
+}
+
+.last-build-time {
+    margin-left: 0px;
+}
+
+h1 {
+    color: #EDEDED;
+}
+
+h2 {
+    color: #EDEDED;
+    font-size: 20px;
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-left: 15px;
+}
+
+p {
+    margin: 10px;
+    color: #666;
+}
+
+a {
+    color: #EDEDED;
+}
+
+.repo-details {
+    display: flex; 
+    align-items: center;
+    padding-left: 15px;
+}
+
+.repo-info {
+    background-color: #272727;
+    border-radius: 10px;
+}
+
+.view-on-github {
+    /* Style for the 'View on Github' link */
+    margin-right: 10px; /* Adjust the spacing between the link and the paragraph as needed */
+}
+
+/* -------------- DETAILS SUMMARY ITEMS ------------------- */
+.summary-info {
+    display: flex;
+    justify-content: space-around; 
+    padding-top: 10px; 
+    padding-bottom: 10px;
+}
+
+.summary-info-item {
+    width: 100%;
+    border-radius: 10px;
+    background-color: #272727;
+}
+
+.item-1 {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.item-3 {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.summary-data-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: left; 
+    justify-content: center;
+}
+
+.summary-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+.summary-title {
+    color: #8F98A7;
+    margin-bottom: 5px;
+}
+
+.summary-data {
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+/* --------------- Score Details --------------- */
+.score-details {
+    background-color: #272727;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+}
+
+.score-details-text-container {
+    margin-left: 5px;
+}
+
+h3 {
+    color: #FFFFFF;
+    margin: 5px;
+}
+
+.score-details-data {
+    margin: 5px;
+}
+
+/* --------------- Main Score Animated Container --------------- */
+.circle-progress-value {
+	stroke: #FFFFFF;
+	stroke-linecap: round;
+}
+
+.score-details-text-container {
+    display: flex; 
+    flex-direction: column; 
+    align-items: left; 
+    justify-content: center;
+}
+
+/* ... other styles remain unchanged ... */
+
+/* Ensure that the body's children start after the navbar */
+body > * {
+    padding-top: 70px; /* Adjust this value to the height of your navbar */
+}
