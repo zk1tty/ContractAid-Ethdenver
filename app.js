@@ -14,7 +14,6 @@ const appId = process.env.APP_ID
 const privateKeyPath = process.env.PRIVATE_KEY_PATH
 const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
 const secret = process.env.WEBHOOK_SECRET
-const enterpriseHostname = process.env.ENTERPRISE_HOSTNAME
 const sampleReport = fs.readFileSync('./sampleReport.md', 'utf8')
 
 // Create an authenticated Octokit client authenticated as a GitHub App
@@ -23,12 +22,7 @@ const app = new App({
   privateKey,
   webhooks: {
     secret
-  },
-  ...(enterpriseHostname && {
-    Octokit: Octokit.defaults({
-      baseUrl: `https://${enterpriseHostname}/api/v3`
-    })
-  })
+  }
 })
 
 // Optional: Get & log the authenticated app's name
@@ -36,14 +30,6 @@ const { data } = await app.octokit.request('/app')
 // Read more about custom logging: https://github.com/octokit/core.js#logging 
 app.octokit.log.debug(`Authenticated as '${data.name}'`)
 
-// Get InstallationID
-// app.webhooks.on('installation.created', async ({ payload }) => {
-//   console.log(`New installation: ${payload.installation.id}`);
-// });
-
-// app.webhooks.on('installation_repositories.added', async ({ payload }) => {
-//   console.log(`Installation for repositories changed: ${payload.installation.id}`);
-// });
 const { data: installations } = await app.octokit.rest.apps.listInstallations();
 const TARGET_LOGIN = "zk1tty";
 const targetInstallation = installations.find(installation => installation.account.login === TARGET_LOGIN);
