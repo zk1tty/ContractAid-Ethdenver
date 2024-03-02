@@ -4,7 +4,7 @@ import http from 'http'
 import url from 'url'
 import { Octokit, App } from 'octokit'
 import { createNodeMiddleware } from '@octokit/webhooks'
-import {intelligentlyAnalyseReview} from './code-analyzer/review_intelligent.js'
+import { intelligentlyAnalyseReview } from './code-analyzer/review_intelligent.js'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -35,7 +35,7 @@ const TARGET_LOGIN = "zk1tty";
 const targetInstallation = installations.find(installation => installation.account.login === TARGET_LOGIN);
 console.log("targetInstallation:", targetInstallation?.id);
 
-async function getRawSolFile(octokit, payload, path){
+async function getRawSolFile(octokit, payload, path) {
   console.log("path:", path);
   const repoRes = await octokit.rest.repos.getContent({
     mediaType: {
@@ -43,9 +43,9 @@ async function getRawSolFile(octokit, payload, path){
     },
     owner: payload.repository.owner.login,
     repo: payload.repository.name,
-    path       
-  }) 
-  return repoRes?.data; 
+    path
+  })
+  return repoRes?.data;
 }
 
 // Subscribe to the "pull_request.opened" webhook event
@@ -56,27 +56,27 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
     const tree_sha = 'heads/main';
     const repoTree = await octokit.rest.git.getTree({
       owner: payload.repository.owner.login,
-      repo: payload.repository.name,      
+      repo: payload.repository.name,
       tree_sha,
       recursive: '1'
     })
 
-    const pathTree = repoTree?.data.tree 
+    const pathTree = repoTree?.data.tree
     const contractsPaths = pathTree.filter(leaf => {
       return leaf.path.split(".").slice(-1)[0] === 'sol'
         ? true
         : false
     })
 
-    if(!fs.existsSync("./contracts/")){
+    if (!fs.existsSync("./contracts/")) {
       fs.mkdir(`./contracts`, { recursive: true }, (err) => {
-        if(err) {console.error(err)}
-      }) 
+        if (err) { console.error(err) }
+      })
     }
-    for (const contract of contractsPaths){
+    for (const contract of contractsPaths) {
       const rawSolFile = await getRawSolFile(octokit, payload, contract.path);
       fs.writeFile(`./contracts/${contract.path.split('/').slice(-1)[0]}`, rawSolFile, err => {
-        if(err) {console.error(err)}
+        if (err) { console.error(err) }
       });
     }
 
@@ -90,8 +90,8 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
       issue_number: payload.pull_request.number,
       body: report ? report : sampleReport,
     })
-    fs.rm(`./contracts`, { recursive: true, force:true }, (err) => {
-      if(err) {console.error(err)}
+    fs.rm(`./contracts`, { recursive: true, force: true }, (err) => {
+      if (err) { console.error(err) }
     })
   } catch (error) {
     if (error.response) {
@@ -124,6 +124,133 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url);
   const queryParameters = parsedUrl.query;
 
+  // Serve the CSS file
+  if (parsedUrl.pathname === '/style.css') {
+    fs.readFile('./style.css', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // serve terminal logo
+  if (parsedUrl.pathname === '/github/terminalicon.png') {
+    fs.readFile('./icons/terminalicon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // serve circle-progress.min.js
+  if (parsedUrl.pathname === '/github/circle-progress.min.js') {
+    fs.readFile('./circle-progress.min.js', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      }
+      else {
+        res.writeHead(200, { 'Content-Type': 'text/javascript' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // serve speedometericon.png
+  if (parsedUrl.pathname === '/github/speedometericon.png') {
+    fs.readFile('./icons/speedometericon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // server linesicon logo
+  if (parsedUrl.pathname === '/github/linesicon.png') {
+    fs.readFile('./icons/linesicon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // serve logo
+  if (parsedUrl.pathname === '/contractaidlogo.png') {
+    fs.readFile('./contractaidlogo.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // serve logo on dashboard
+  if (parsedUrl.pathname === '/github/contractaidlogo.png') {
+    fs.readFile('./contractaidlogo.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // Server login CSS file
+  if (parsedUrl.pathname === '/login.css') {
+    fs.readFile('./login.css', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'text/css' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
+  // Serve Github logo
+  if (parsedUrl.pathname === '/githubicon.png') {
+    fs.readFile('./githubicon.png', (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end('Not found');
+      } else {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(data);
+      }
+    });
+    return; // Important to return here so the code below doesn't execute for CSS requests
+  }
+
   // Check if the request URL matches the webhook path
   if (parsedUrl.pathname === webhookPath) {
     console.log("got webhook");
@@ -131,10 +258,17 @@ const server = http.createServer(async (req, res) => {
     const response = await middleware(req, res);
     res.end();
   } else if (parsedUrl.pathname === '/github/callback') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+    // res.writeHead(200, { 'Content-Type': 'text/html' });
     console.log("queryParameters:", queryParameters);
     const code = queryParameters?.code;
-    res.end(`<h1>Your user code is ${queryParameters} </h1>`);
+    // Read the HTML content from the file
+    const dashboardHtml = fs.readFileSync('./dashboard.html', 'utf8');
+
+    // Replace placeholders with actual content
+    const customizedHtml = dashboardHtml.replace('{{userCode}}', queryParameters);
+
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(customizedHtml);
   } else {
     // Handle other paths or serve static files here
     // For example, serve a simple message for the root path
@@ -149,6 +283,8 @@ const server = http.createServer(async (req, res) => {
     }
   }
 });
+
+
 
 server.listen(port, () => {
   console.log(`Server is listening for events at: ${localWebhookUrl}`)

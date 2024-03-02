@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Dashboard</title>
+  <script src="circle-progress.min.js" type="module"></script>
+  <style>
+    /* Add some basic styling */
+    body { font-family: Arial, sans-serif; }
+    .dashboard { margin: 20px; }
+    .dashboard h1 { color: #333; }
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="contractaidlogo.png" alt="ContractAid" class="nav-logo">
+                <a href="/" class="nav-text">ContractAid</a>
+            </div>
+        </div>
+    </nav>
+
+  <div class="dashboard">
+    <h1>Hello {{userCode}}!</h1>
+    <div class="repo-info">
+        <h2>Repository: Crossy Road</h2>
+        <div class="repo-details">
+            <p class="last-build-time">Last Build Time</p>
+            <a href="#" class="view-on-github">View on Github</a>
+        </div>
+    </div>
+    <div class="summary-info">
+        <div class="summary-info-item item-1">
+            <img src="./speedometericon.png" alt="Terminal" class="summary-icon">
+            <div class="summary-data-container">
+                <p class="summary-title">Security Score</p>
+                <p class="summary-data">90/100</p>
+            </div>
+        </div>
+        <div class="summary-info-item item-3">
+            <img src="./linesicon.png" alt="Terminal" class="summary-icon">
+            <div class="summary-data-container">
+                <p class="summary-title">Scan Duration</p>
+                <p class="summary-data">3 secs</p>
+            </div>
+        </div>
+        <div class="summary-info-item item-3">
+            <img src="./terminalicon.png" alt="Terminal" class="summary-icon">
+            <div class="summary-data-container">
+                <p class="summary-title">Lines of Code</p>
+                <p class="summary-data">1854 Lines</p>
+            </div>
+        </div>
+    </div>
+    <div class="score-details">
+        <!-- TODO: Insert JS Chart -->
+        <circle-progress class="circle-progress-circle circle-progress-value" value="90" max="100"></circle-progress>
+        <div class="score-details-text-container">
+            <h3>Your Solidity Score is AVERAGE</h3>
+            <p class="score-details-data">The SolidityScan score is calculated based on lines of code and weights assigned to each issue depending on the severity and confidence. To improve your score, view the detailed result and leverage the remediation solutions provided.</p>
+        </div> 
+    </div>
+    <!-- Example: Display a link or instructions -->
+    <p>Need help? Check out our <a href="https://example.com/documentation">documentation</a></p>
+  </div>
+</body>
+</html>
