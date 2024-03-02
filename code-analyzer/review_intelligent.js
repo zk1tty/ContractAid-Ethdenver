@@ -21,10 +21,10 @@ import { BaseMessage } from "langchain/schema";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
 
-const REPO_PATH = "contracts"
+// const REPO_PATH = "contracts"
 const openAIKey = process.env.OPENAI_API_KEY;
 
-async function intelligentlyAnalyseReview() {
+async function intelligentlyAnalyseReview(REPO_PATH="contracts") {
   const loader = new DirectoryLoader(REPO_PATH, {
     ".sol": (path) => new TextLoader(path),
   });
@@ -145,6 +145,7 @@ async function intelligentlyAnalyseReview() {
   });
 
   console.log(result2);
+  return (result, result2);
 };
 
 intelligentlyAnalyseReview().then(() => process.exit());
