@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/style.css">
   <title>Dashboard</title>
+  <script src="./circularProgressBar.min.js"></script>
   <style>
     /* Add some basic styling */
     body { font-family: Arial, sans-serif; }
@@ -56,6 +57,7 @@
     </div>
     <div class="score-details">
         <!-- TODO: Insert JS Chart -->
+        <div class="pie" data-pie='{ "percent": 80 }'></div>
         <h3>Your Solidity Score is AVERAGE</h3>
         <p class="score-details-data">The SolidityScan score is calculated based on lines of code and weights assigned to each issue depending on the severity and confidence. To improve your score, view the detailed result and leverage the remediation solutions provided.</p>
     </div>
