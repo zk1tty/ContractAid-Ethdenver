@@ -44,11 +44,9 @@ async function getRawSolFile(octokit, payload, path) {
   return repoRes?.data;
 }
 
-// Subscribe to the "pull_request.opened" webhook event
-app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
+async function createPRWithLLMReport({octokit, payload}){
   console.log(`Received a pull request event for #${payload.pull_request.number}`)
   try {
-
     const tree_sha = 'heads/main';
     const repoTree = await octokit.rest.git.getTree({
       owner: payload.repository.owner.login,
@@ -58,7 +56,7 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
     })
 
     const pathTree = repoTree?.data.tree
-    var lang = "sol";
+    var lang = "rust";
     const contractsPaths = pathTree.filter(leaf => {
       lang = leaf.path.split(".").slice(-1)[0] === 'sol'
       ? "sol"
@@ -103,7 +101,10 @@ app.webhooks.on('pull_request.reopened', async ({ octokit, payload }) => {
       console.error(error)
     }
   }
-})
+}
+// Subscribe to the "pull_request.opened" webhook event
+app.webhooks.on('pull_request.opened', createPRWithLLMReport)
+app.webhooks.on('pull_request.reopened', createPRWithLLMReport)
 
 // Optional: Handle errors
 app.webhooks.onError((error) => {
