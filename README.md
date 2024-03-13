@@ -40,5 +40,5 @@ ContractAid offers a quick 5-minute checker with clear and visual explanations. 
 ## More Information
 
 For more information about ContractAid and EthDenver 2024, visit:
-- [EthDenver 2024 Dashboard](https://devfolio.co/ethdenver2024/dashboard)
+- [EthDenver 2024 Dashboard](https://ethdenver2024.devfolio.co/projects)
 - [ContractAid Website](https://contractaid.io/)
